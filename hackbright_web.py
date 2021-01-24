@@ -1,10 +1,12 @@
 """A web application for tracking projects, students, and student grades."""
 
-from flask import Flask, request, render_template
+from flask import Flask, request, render_template, flash
 
 import hackbright
 
 app = Flask(__name__)
+#ADDED db
+
 
 
 @app.route("/student")
@@ -14,8 +16,13 @@ def get_student():
     # Step 2: Get github info from form on student-search
     github = request.args.get('github')
 
+    print("*******\n\n", github )
+
     # Unpack student data from Hackbright.sql
     first, last, github = hackbright.get_student_by_github(github)
+    print("*******\n\n", first )
+    print("*******\n\n", last )
+    print("*******\n\n", github )
 
     # Step 3: render student_info passing through 3 variables to template
     html = render_template("student_info.html", 
@@ -24,13 +31,39 @@ def get_student():
                             github=github)
     return html
 
+
+@app.route("/student-add", methods=["POST"])
+def student_add():
+    """Add a student.""" 
+
+    # Step 1: Create 3 variables to receive form information using request.form.get()
+    last_name = request.form.get("last")
+    first_name = request.form.get("first")
+    github_name = request.form.get("github")
+
+    # Skip Step 2-4 because it's in def make_new_student in hackbright.py
+    hackbright.make_new_student(first_name, last_name, github_name)
+    
+    
+    # Step 5: Return redirect
+    return render_template("/student_added.html",
+                    first = first_name,
+                    last = last_name,
+                    github = github_name)
+
+@app.route("/student-create")
+def create_a_student():
+    """Show form for searching for a student."""
+
+    return render_template("student_create.html")
+
 # Added a form to search for a student record
 @app.route("/student-search")
 def get_student_form():
     """Show form for searching for a student."""
 
     return render_template("student_search.html")
-    
+
 
 if __name__ == "__main__":
     hackbright.connect_to_db(app)
