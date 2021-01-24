@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hackbright Projects Gradebook</title>
+</head>
+<body>
+    <!-- projects -->
+    <ul>
+        Project Pages:
+        {%for title, description, max_grade in all_projects %}
+        <li><a href="/project-info/{{ title }}" name="title">{{ title }}</a></li>
+        {%endfor%}
+    </ul>
+    <!-- students -->
+    <ul>
+        Student Pages:
+        {%for first, last, github in all_students%}
+        <li><a href="/student/{{ github }}" name="github"> {{ first }} {{ last }}</li>
+        {%endfor%}
+    </ul>
+</body>
+</html>
