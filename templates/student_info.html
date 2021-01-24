@@ -12,7 +12,11 @@
     <p>Project Grade</p>
     <ul>
     {% for title, max in rows %}
-        <li>{{ title }} {{ max }} <a href="/project-info/{{ title }}" name="title">Details</a></li>
+        <li>
+            <a href="/project-info/{{ title }}" name="title">
+            {{ title }}</a> 
+            {{ max }}
+        </li>
     {% endfor %}
     </ul>
 </body>

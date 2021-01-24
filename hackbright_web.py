@@ -36,6 +36,23 @@ def get_student():
                             rows=rows)
     return html
 
+# THIS VIEW FUNCTION NEEDS TO LOOK SIMILAR TO FUNCTION AT LINE 13
+# EXCEPT NO GET REQUESTS, SHOULD COME FROM LINK OF PROJECT INFO
+@app.route("/student/<github>")
+def project_to_student(github):
+    """See a student from project page."""
+    first, last, github = hackbright.get_student_by_github(github)
+    
+
+    # SIMILAR TO FUNCTION ON LINE 13
+    rows = hackbright.get_grades_by_github(github)
+    # Returns rows
+
+    return render_template("student_info.html", 
+                            first = first,
+                            last = last,
+                            github = github,
+                            rows = rows)
 
 @app.route("/student-add", methods=["POST"])
 def student_add():
@@ -79,8 +96,15 @@ def view_project_info(title):
     # Create variable holding tuple (title, description, grade)
     row = hackbright.get_project_by_title(title)
 
+
+    # Step 10?: Create variable holding tuples of all students info
+    # Iterate over on project-info
+    all_grades = hackbright.get_grades_by_title(title)
+
+
     return render_template('project-info.html',
-                            row = row)
+                            row = row,
+                            all_grades = all_grades)
 
     
 

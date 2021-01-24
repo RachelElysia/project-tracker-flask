@@ -74,7 +74,6 @@ def get_project_by_title(title):
 
     row = db_cursor.fetchone()
 
-    print(f"Title: {row[0]}\nDescription: {row[1]}\nMax Grade: {row[2]}")
 
     return row
 
