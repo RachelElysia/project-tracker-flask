@@ -11,10 +11,13 @@ app = Flask(__name__)
 def get_student():
     """Show information about a student."""
 
+    # Step 2: Get github info from form on student-search
     github = request.args.get('github')
 
+    # Unpack student data from Hackbright.sql
     first, last, github = hackbright.get_student_by_github(github)
 
+    # Step 3: render student_info passing through 3 variables to template
     html = render_template("student_info.html", 
                             first=first,
                             last=last,
