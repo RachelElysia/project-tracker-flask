@@ -1,13 +1,47 @@
 """A web application for tracking projects, students, and student grades."""
 
 from flask import Flask, request, render_template, flash
+from flask_sqlalchemy import SQLAlchemy
 
 import hackbright
 
 app = Flask(__name__)
-#ADDED db
+db = SQLAlchemy()
 
+@app.route('/')
+def homepage():
+    """This is the homepage."""
 
+    #QUERY 1: get all students
+    QUERY = """
+        SELECT first_name, last_name, github
+        FROM students
+        """
+
+    db_cursor = db.session.execute(QUERY)
+
+    all_students = db_cursor.fetchall()
+    print("\n\n\n\n*******")
+    print(all_students)
+    print("*****\n\n\n\n")
+
+    #QUERY 2: get all projects
+
+    QUERY = """
+        SELECT title, description, max_grade
+        FROM projects
+        """
+
+    db_cursor = db.session.execute(QUERY)
+
+    all_projects = db_cursor.fetchall()
+    print("\n\n\n\n*******")
+    print(all_projects)
+    print("*****\n\n\n\n")
+
+    return render_template("homepage.html",
+                            all_projects = all_projects,
+                            all_students = all_students)
 
 @app.route("/student")
 def get_student():
