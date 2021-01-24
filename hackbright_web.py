@@ -24,11 +24,16 @@ def get_student():
     print("*******\n\n", last )
     print("*******\n\n", github )
 
+    # Step 8?: Grab grade from student's github
+    rows = hackbright.get_grades_by_github(github)
+    # Returns rows
+
     # Step 3: render student_info passing through 3 variables to template
     html = render_template("student_info.html", 
                             first=first,
                             last=last,
-                            github=github)
+                            github=github,
+                            rows=rows)
     return html
 
 
@@ -64,6 +69,20 @@ def get_student_form():
 
     return render_template("student_search.html")
 
+@app.route("/project-info/<title>")
+# Need to pass in variable title into view function
+# To use title in get_project_by_title
+def view_project_info(title):
+    #render_template("project-info.html", title, description, max_grade)
+    # title = request.args.get(title)
+
+    # Create variable holding tuple (title, description, grade)
+    row = hackbright.get_project_by_title(title)
+
+    return render_template('project-info.html',
+                            row = row)
+
+    
 
 if __name__ == "__main__":
     hackbright.connect_to_db(app)

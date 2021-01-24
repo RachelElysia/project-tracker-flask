@@ -9,5 +9,11 @@
     <h1>{{ first }} {{ last }}</h1>
     <p>GitHub Account: {{ github }}</p>
     <!-- <a href=""></a> -->
+    <p>Project Grade</p>
+    <ul>
+    {% for title, max in rows %}
+        <li>{{ title }} {{ max }} <a href="/project-info/{{ title }}" name="title">Details</a></li>
+    {% endfor %}
+    </ul>
 </body>
 </html>
